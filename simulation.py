@@ -14,7 +14,7 @@ p.setGravity(0,0,-9.8)
 # set floor
 planeID = p.loadURDF("plane.urdf")
 # read world from box.sdf
-p.loadSDF("box.sdf")
+p.loadSDF("boxes.sdf")
 # step the physics 1000 times
 for i in range(0, 1000):
     p.stepSimulation()
