@@ -9,7 +9,8 @@ height = 1
 x = 0
 y = 0
 z = .5
-pyrosim.Send_Cube(name="Box1", pos=[x,y,z] , size=[length,width,height])
-pyrosim.Send_Cube(name="Box2", pos=[x+1,y,z+1] , size=[length,width,height])
+# create 10 boxes stacked ontop of one another
+for i in range(0, 10):
+    pyrosim.Send_Cube(name="Box", pos=[x,y,z+i] , size=[length,width,height])
 # end program and close sdf file
 pyrosim.End()
