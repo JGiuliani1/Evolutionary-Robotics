@@ -13,6 +13,8 @@ p.setAdditionalSearchPath(pybullet_data.getDataPath())
 p.setGravity(0,0,-9.8)
 # set floor
 planeID = p.loadURDF("plane.urdf")
+# create robot ID
+robotID = p.loadURDF("body.urdf")
 # read world from box.sdf
 p.loadSDF("world.sdf")
 # step the physics 1000 times
