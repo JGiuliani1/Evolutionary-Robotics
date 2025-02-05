@@ -21,14 +21,16 @@ robotID = p.loadURDF("body.urdf")
 p.loadSDF("world.sdf")
 # prepare sensor
 pyrosim.Prepare_To_Simulate(robotID)
-# step the physics 1000 times
-for i in range(0, 2000):
+# prepare numpy array
+backLegSensorValues = numpy.zeros(1000)
+# step the physics 10000 times
+for i in range(0, 1000):
     p.stepSimulation()
     time.sleep(1/60)
-    #print(i)
     # touch sensor for back leg
-    backLegTouch = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
-    print(backLegTouch)
+    backLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
 
+# store numpy data
+numpy.save("data/backLegSensorValues.npy", backLegSensorValues)
 # disconnect pybullet client
 p.disconnect()
