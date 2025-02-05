@@ -18,7 +18,7 @@ robotID = p.loadURDF("body.urdf")
 # read world from box.sdf
 p.loadSDF("world.sdf")
 # step the physics 1000 times
-for i in range(0, 1000):
+for i in range(0, 2000):
     p.stepSimulation()
     time.sleep(1/60)
     print(i)
