@@ -15,6 +15,11 @@ p.setAdditionalSearchPath(pybullet_data.getDataPath())
 # hide sidebar
 #p.configureDebugVisualizer(p.COV_ENABLE_GUI,0)
 
+# variables to modify oscillation values
+amplitude = numpy.pi/4
+frequency = 10
+phaseOffset = 0
+
 # add gravity
 p.setGravity(0,0,-9.8)
 # set floor
@@ -30,8 +35,9 @@ backLegSensorValues = numpy.zeros(NUM_ITERATIONS)
 frontLegSensorValues = numpy.zeros(NUM_ITERATIONS)
 # create sin values for motors
 input_array = numpy.linspace(0, 2*numpy.pi, NUM_ITERATIONS)
-targetAngles = (numpy.pi/4)*numpy.sin(input_array)
-# numpy.save("data/sinValues.npy", targetAngles)
+targetAngles = amplitude*numpy.sin(frequency * input_array + phaseOffset)
+#numpy.save("data/sinValues.npy", targetAngles)
+#exit()
 # step the physics NUM_ITERATIONS times
 for i in range(0, NUM_ITERATIONS):
     p.stepSimulation()
