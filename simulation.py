@@ -36,7 +36,13 @@ for i in range(0, 1000):
         bodyIndex = robotID,
         jointName = "Torso_BackLeg",
         controlMode = p.POSITION_CONTROL,
-        targetPosition = 0.0,
+        targetPosition = -3.141519/4.0,
+        maxForce = 500)
+    pyrosim.Set_Motor_For_Joint(
+        bodyIndex = robotID,
+        jointName = "Torso_FrontLeg",
+        controlMode = p.POSITION_CONTROL,
+        targetPosition = 3.141519/4.0,
         maxForce = 500)
     
 # store numpy data
