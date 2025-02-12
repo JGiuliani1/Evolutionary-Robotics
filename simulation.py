@@ -28,12 +28,11 @@ pyrosim.Prepare_To_Simulate(robotID)
 # prepare numpy arrays
 backLegSensorValues = numpy.zeros(NUM_ITERATIONS)
 frontLegSensorValues = numpy.zeros(NUM_ITERATIONS)
-#
+# create sin values for motors
 input_array = numpy.linspace(0, 2*numpy.pi, NUM_ITERATIONS)
 targetAngles = (numpy.pi/4)*numpy.sin(input_array)
-numpy.save("data/sinValues.npy", targetAngles)
-exit()
-# step the physics 10000 times
+# numpy.save("data/sinValues.npy", targetAngles)
+# step the physics NUM_ITERATIONS times
 for i in range(0, NUM_ITERATIONS):
     p.stepSimulation()
     time.sleep(1/60)
@@ -45,13 +44,13 @@ for i in range(0, NUM_ITERATIONS):
         bodyIndex = robotID,
         jointName = "Torso_BackLeg",
         controlMode = p.POSITION_CONTROL,
-        targetPosition = random.triangular(-(math.pi/2.0), math.pi/2.0),
+        targetPosition = targetAngles[i],
         maxForce = 25)
     pyrosim.Set_Motor_For_Joint(
         bodyIndex = robotID,
         jointName = "Torso_FrontLeg",
         controlMode = p.POSITION_CONTROL,
-        targetPosition = random.triangular(-(math.pi/2.0), math.pi/2.0),
+        targetPosition = targetAngles[i],
         maxForce = 25)
     
 # store numpy data
