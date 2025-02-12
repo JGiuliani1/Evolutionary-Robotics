@@ -6,6 +6,8 @@ import pyrosim.pyrosim as pyrosim
 import random
 import time
 
+NUM_ITERATIONS = 1000
+
 # create client to connect with pybullet
 physicsClient = p.connect(p.GUI)
 # path for pybullet_data
@@ -24,10 +26,15 @@ p.loadSDF("world.sdf")
 # prepare sensor
 pyrosim.Prepare_To_Simulate(robotID)
 # prepare numpy arrays
-backLegSensorValues = numpy.zeros(1000)
-frontLegSensorValues = numpy.zeros(1000)
+backLegSensorValues = numpy.zeros(NUM_ITERATIONS)
+frontLegSensorValues = numpy.zeros(NUM_ITERATIONS)
+#
+input_array = numpy.linspace(0, 2*numpy.pi, NUM_ITERATIONS)
+targetAngles = numpy.sin(input_array)
+numpy.save("data/sinValues.npy", targetAngles)
+exit()
 # step the physics 10000 times
-for i in range(0, 1000):
+for i in range(0, NUM_ITERATIONS):
     p.stepSimulation()
     time.sleep(1/60)
     # touch sensor for back and front legs
