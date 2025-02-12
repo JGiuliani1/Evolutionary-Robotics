@@ -1,7 +1,9 @@
+import math
 import numpy
 import pybullet as p
 import pybullet_data
 import pyrosim.pyrosim as pyrosim
+import random
 import time
 
 # create client to connect with pybullet
@@ -36,14 +38,14 @@ for i in range(0, 1000):
         bodyIndex = robotID,
         jointName = "Torso_BackLeg",
         controlMode = p.POSITION_CONTROL,
-        targetPosition = -3.141519/4.0,
-        maxForce = 500)
+        targetPosition = random.triangular(-(math.pi/2.0), math.pi/2.0),
+        maxForce = 25)
     pyrosim.Set_Motor_For_Joint(
         bodyIndex = robotID,
         jointName = "Torso_FrontLeg",
         controlMode = p.POSITION_CONTROL,
-        targetPosition = 3.141519/4.0,
-        maxForce = 500)
+        targetPosition = random.triangular(-(math.pi/2.0), math.pi/2.0),
+        maxForce = 25)
     
 # store numpy data
 numpy.save("data/backLegSensorValues.npy", backLegSensorValues)
