@@ -30,7 +30,7 @@ backLegSensorValues = numpy.zeros(NUM_ITERATIONS)
 frontLegSensorValues = numpy.zeros(NUM_ITERATIONS)
 #
 input_array = numpy.linspace(0, 2*numpy.pi, NUM_ITERATIONS)
-targetAngles = numpy.sin(input_array)
+targetAngles = (numpy.pi/4)*numpy.sin(input_array)
 numpy.save("data/sinValues.npy", targetAngles)
 exit()
 # step the physics 10000 times
