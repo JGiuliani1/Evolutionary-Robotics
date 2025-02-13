@@ -3,3 +3,5 @@ __pychache__/
 data/backLegSensorValues.npy
 data/frontLegSensorValues.npy
 data/sinValues.npy
+data/backLegSinValues.npy
+data/frontLegSinValues.npy

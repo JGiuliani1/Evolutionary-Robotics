@@ -16,9 +16,12 @@ p.setAdditionalSearchPath(pybullet_data.getDataPath())
 #p.configureDebugVisualizer(p.COV_ENABLE_GUI,0)
 
 # variables to modify oscillation values
-amplitude = numpy.pi/4
-frequency = 10
-phaseOffset = 0
+frontAmplitude = numpy.pi/4
+frontFrequency = 10
+frontPhaseOffset = 0
+backAmplitude = numpy.pi/4
+backFrequency = 30
+backPhaseOffset = numpy.pi
 
 # add gravity
 p.setGravity(0,0,-9.8)
@@ -35,8 +38,10 @@ backLegSensorValues = numpy.zeros(NUM_ITERATIONS)
 frontLegSensorValues = numpy.zeros(NUM_ITERATIONS)
 # create sin values for motors
 input_array = numpy.linspace(0, 2*numpy.pi, NUM_ITERATIONS)
-targetAngles = amplitude*numpy.sin(frequency * input_array + phaseOffset)
-#numpy.save("data/sinValues.npy", targetAngles)
+frontTargetAngles = frontAmplitude*numpy.sin(frontFrequency * input_array + frontPhaseOffset)
+backTargetAngles = backAmplitude*numpy.sin(backFrequency* input_array + backPhaseOffset)
+#numpy.save("data/frontLegSinValues.npy", frontTargetAngles)
+#numpy.save("data/backLegSinValues.npy", backTargetAngles)
 #exit()
 # step the physics NUM_ITERATIONS times
 for i in range(0, NUM_ITERATIONS):
@@ -50,17 +55,17 @@ for i in range(0, NUM_ITERATIONS):
         bodyIndex = robotID,
         jointName = "Torso_BackLeg",
         controlMode = p.POSITION_CONTROL,
-        targetPosition = targetAngles[i],
+        targetPosition = frontTargetAngles[i],
         maxForce = 25)
     pyrosim.Set_Motor_For_Joint(
         bodyIndex = robotID,
         jointName = "Torso_FrontLeg",
         controlMode = p.POSITION_CONTROL,
-        targetPosition = targetAngles[i],
+        targetPosition = backTargetAngles[i],
         maxForce = 25)
     
 # store numpy data
-numpy.save("data/backLegSensorValues.npy", backLegSensorValues)
-numpy.save("data/frontLegSensorValues.npy", frontLegSensorValues)
+#numpy.save("data/backLegSensorValues.npy", backLegSensorValues)
+#numpy.save("data/frontLegSensorValues.npy", frontLegSensorValues)
 # disconnect pybullet client
 p.disconnect()
