@@ -1,9 +1,7 @@
-import math
 import numpy
 import pybullet as p
 import pybullet_data
 import pyrosim.pyrosim as pyrosim
-import random
 import time
 
 NUM_ITERATIONS = 1000
@@ -40,9 +38,6 @@ frontLegSensorValues = numpy.zeros(NUM_ITERATIONS)
 input_array = numpy.linspace(0, 2*numpy.pi, NUM_ITERATIONS)
 frontTargetAngles = frontAmplitude*numpy.sin(frontFrequency * input_array + frontPhaseOffset)
 backTargetAngles = backAmplitude*numpy.sin(backFrequency* input_array + backPhaseOffset)
-#numpy.save("data/frontLegSinValues.npy", frontTargetAngles)
-#numpy.save("data/backLegSinValues.npy", backTargetAngles)
-#exit()
 # step the physics NUM_ITERATIONS times
 for i in range(0, NUM_ITERATIONS):
     p.stepSimulation()
@@ -64,8 +59,5 @@ for i in range(0, NUM_ITERATIONS):
         targetPosition = backTargetAngles[i],
         maxForce = 25)
     
-# store numpy data
-#numpy.save("data/backLegSensorValues.npy", backLegSensorValues)
-#numpy.save("data/frontLegSensorValues.npy", frontLegSensorValues)
 # disconnect pybullet client
 p.disconnect()
