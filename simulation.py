@@ -1,4 +1,5 @@
 import constants as c
+import numpy as np
 import pybullet as p
 import pybullet_data
 from robot import ROBOT
@@ -19,6 +20,7 @@ class SIMULATION:
 
 
     def __del__(self):
+        #self.Save_Values()
         p.disconnect()
 
     
@@ -32,5 +34,7 @@ class SIMULATION:
 
     
     def Save_Values(self):
-        pass
+        for sensor in self.robot.sensors:
+            fileName = "data/" + sensor + "SensorValues.npy"
+            np.save(fileName, self.robot.sensors[sensor].values)
             
