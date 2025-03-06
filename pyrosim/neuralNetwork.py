@@ -47,7 +47,6 @@ class NEURAL_NETWORK:
                 self.neurons[neuron].Update_Sensor_Neuron()
             else:
                 self.neurons[neuron].Update_Hidden_Or_Motor_Neuron(self.neurons, self.synapses)
-        exit()
 
 # ---------------- Private methods --------------------------------------
 
