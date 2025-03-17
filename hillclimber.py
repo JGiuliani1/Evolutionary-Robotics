@@ -17,6 +17,7 @@ class HILL_CLIMBER:
         self.Spawn()
         self.Mutate()
         self.child.Evaluate()
+        exit()
         self.Select()
     
 
@@ -25,7 +26,7 @@ class HILL_CLIMBER:
     
 
     def Mutate(self):
-        pass
+        self.child.Mutate()
     
 
     def Select(self):
