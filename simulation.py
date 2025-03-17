@@ -38,4 +38,7 @@ class SIMULATION:
         for sensor in self.robot.sensors:
             fileName = "data/" + sensor + "SensorValues.npy"
             np.save(fileName, self.robot.sensors[sensor].values)
-            
+
+
+    def Get_Fitness(self):
+        self.robot.Get_Fitness()
