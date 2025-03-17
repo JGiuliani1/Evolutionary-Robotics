@@ -1,5 +1,6 @@
 import constants as c
 import copy
+import os
 from solution import SOLUTION
 
 
@@ -10,32 +11,37 @@ class PARALLEL_HILL_CLIMBER:
         for i in range(0, c.POPULATION_SIZE):
             self.parents[i] = SOLUTION(self.nextAvailableID)
             self.nextAvailableID += 1
+        os.system("del del brain*.nndf")
+        os.system("del fitness*.txt")
 
     
     def Evolve(self):
-        #self.parent.Evaluate("GUI")
+        #self.parent.Start_Simulation("GUI")
         #for currentGeneration in range(0, c.NUMBER_OF_GENERATIONS):
-        #    self.Evolve_For_One_Generation()
-        for parent in self.parents:
-            self.parents[parent].Evaluate("GUI")
+        #    
+        self.Evaluate(self.parents)
+        self.Evolve_For_One_Generation()
 
     
     def Evolve_For_One_Generation(self):
         self.Spawn()
         self.Mutate()
-        self.child.Evaluate("DIRECT")
-        print("\nParent fitness: " + str(self.parent.fitness) + " Child fitness: " + str(self.child.fitness) + "\n")
-        self.Select()
+        self.Evaluate(self.children)
+        #print("\nParent fitness: " + str(self.parent.fitness) + " Child fitness: " + str(self.child.fitness) + "\n")
+        #self.Select()
     
 
     def Spawn(self):
-        self.child = copy.deepcopy(self.parent)
-        self.child.Set_ID(self.nextAvailableID)
-        self.nextAvailableID += 1
+        self.children = {}
+        for i in self.parents:
+            self.children[i] = copy.deepcopy(self.parents[i])
+            self.children[i].Set_ID(self.nextAvailableID)
+            self.nextAvailableID += 1
     
 
     def Mutate(self):
-        self.child.Mutate()
+        for child in self.children:
+            self.children[child].Mutate()
     
 
     def Select(self):
@@ -46,3 +52,10 @@ class PARALLEL_HILL_CLIMBER:
     def Show_Best(self):
         #self.child.Evaluate("GUI")
         pass
+
+
+    def Evaluate(self, solutions):
+        for parent in solutions:
+            self.parents[parent].Start_Simulation("DIRECT")
+        for parent in solutions:
+            self.parents[parent].Wait_For_Simulation_To_End()

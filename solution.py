@@ -12,13 +12,24 @@ class SOLUTION:
     
 
     def Evaluate(self, directOrGUI):
+        pass
+    
+
+    def Start_Simulation(self, directOrGUI):
         self.Create_World()
         self.Generate_Body()
         self.Generate_Brain()
         os.system("start /B python simulate.py " + directOrGUI + " " + str(self.myID))
-        file = open("fitness.txt", "r")
+
+
+    def Wait_For_Simulation_To_End(self):
+        fitnessFile = "fitness" + str(self.myID) + ".txt"
+        while not os.path.exists(fitnessFile):
+            time.sleep(0.01)
+        file = open(fitnessFile, "r")
         self.fitness = float(file.read())
         file.close()
+        os.system("del " + fitnessFile)
     
 
     def Create_World(self):
