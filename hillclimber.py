@@ -1,4 +1,5 @@
 import constants as c
+import copy
 from solution import SOLUTION
 
 
@@ -8,7 +9,7 @@ class HILL_CLIMBER:
     
     def Evolve(self):
         self.parent.Evaluate()
-        for currentGeneration in c.NUMBER_OF_GENERATIONS:
+        for currentGeneration in range(0, c.NUMBER_OF_GENERATIONS):
             self.Evolve_For_One_Generation()
 
     
@@ -20,7 +21,7 @@ class HILL_CLIMBER:
     
 
     def Spawn(self):
-        pass
+        self.child = copy.deepcopy(self.parent)
     
 
     def Mutate(self):
