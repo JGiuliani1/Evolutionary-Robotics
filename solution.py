@@ -2,6 +2,7 @@ import numpy as np
 import os
 import pyrosim.pyrosim as pyrosim
 import random
+import time
 
 class SOLUTION:
     def __init__(self):
@@ -13,7 +14,7 @@ class SOLUTION:
         self.Create_World()
         self.Generate_Body()
         self.Generate_Brain()
-        os.system("python simulate.py " + directOrGUI)
+        os.system("start /B python simulate.py " + directOrGUI )
         file = open("fitness.txt", "r")
         self.fitness = float(file.read())
         file.close()
@@ -63,7 +64,7 @@ class SOLUTION:
         for currentRow in range(0, 3):
             for currentColumn in range(0, 2):
                 pyrosim.Send_Synapse( sourceNeuronName = currentRow , targetNeuronName = currentColumn + 3 , weight = self.weights[currentRow][currentColumn] )
-
+        
         pyrosim.End()
     
 
