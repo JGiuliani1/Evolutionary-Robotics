@@ -2,7 +2,7 @@ import numpy as np
 
 # engine variables
 FORCE_GRAVITY = -9.8
-NUM_ITERATIONS = 1000
+NUM_ITERATIONS = 300
 SLEEP_TIME = 1/60
 
 # motor variables
