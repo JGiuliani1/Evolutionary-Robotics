@@ -8,7 +8,7 @@ from world import WORLD
 
 class SIMULATION:
 
-    def __init__(self, directOrGUI):
+    def __init__(self, directOrGUI, solutionID):
         # create client to connect with pybullet
         if directOrGUI == "DIRECT":
             self.physicsClient = p.connect(p.DIRECT)
@@ -21,7 +21,7 @@ class SIMULATION:
         # add gravity
         p.setGravity(0,0,c.FORCE_GRAVITY)
         self.world = WORLD()
-        self.robot = ROBOT()
+        self.robot = ROBOT(solutionID)
 
 
     def __del__(self):
