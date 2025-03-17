@@ -8,9 +8,14 @@ from world import WORLD
 
 class SIMULATION:
 
-    def __init__(self):
+    def __init__(self, directOrGUI):
         # create client to connect with pybullet
-        self.physicsClient = p.connect(p.GUI)
+        if directOrGUI == "DIRECT":
+            self.physicsClient = p.connect(p.DIRECT)
+            self.sleepTime = 1/1000
+        else:
+            self.physicsClient = p.connect(p.GUI)
+            self.sleepTime = c.SLEEP_TIME
         # path for pybullet_data
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
         # add gravity
@@ -31,7 +36,7 @@ class SIMULATION:
             self.robot.Sense(step)
             self.robot.Think()
             self.robot.Act(step)
-            time.sleep(c.SLEEP_TIME)
+            time.sleep(self.sleepTime)
 
     
     def Save_Values(self):

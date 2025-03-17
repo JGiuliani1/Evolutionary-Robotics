@@ -2,7 +2,7 @@ import numpy as np
 
 # engine variables
 FORCE_GRAVITY = -9.8
-NUM_ITERATIONS = 300
+NUM_ITERATIONS = 1000
 SLEEP_TIME = 1/60
 
 # motor variables
@@ -16,4 +16,4 @@ FREQUENCY = 10
 PHASE_OFFSET = np.pi
 
 # search variables
-NUMBER_OF_GENERATIONS = 2
+NUMBER_OF_GENERATIONS = 10
