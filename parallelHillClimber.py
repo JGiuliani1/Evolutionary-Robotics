@@ -1,0 +1,44 @@
+import constants as c
+import copy
+from solution import SOLUTION
+
+
+class PARALLEL_HILL_CLIMBER:
+    def __init__(self):
+        self.parents = {}
+        for i in range(0, c.POPULATION_SIZE):
+            self.parents[i] = SOLUTION()
+
+    
+    def Evolve(self):
+        #self.parent.Evaluate("GUI")
+        #for currentGeneration in range(0, c.NUMBER_OF_GENERATIONS):
+        #    self.Evolve_For_One_Generation()
+        for parent in self.parents:
+            self.parents[parent].Evaluate("GUI")
+
+    
+    def Evolve_For_One_Generation(self):
+        self.Spawn()
+        self.Mutate()
+        self.child.Evaluate("DIRECT")
+        print("\nParent fitness: " + str(self.parent.fitness) + " Child fitness: " + str(self.child.fitness) + "\n")
+        self.Select()
+    
+
+    def Spawn(self):
+        self.child = copy.deepcopy(self.parent)
+    
+
+    def Mutate(self):
+        self.child.Mutate()
+    
+
+    def Select(self):
+        if self.parent.fitness > self.child.fitness:
+            self.parent = self.child
+
+    
+    def Show_Best(self):
+        #self.child.Evaluate("GUI")
+        pass

@@ -17,3 +17,4 @@ PHASE_OFFSET = np.pi
 
 # search variables
 NUMBER_OF_GENERATIONS = 10
+POPULATION_SIZE = 2
