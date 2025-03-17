@@ -14,3 +14,6 @@ INPUT_ARRAY_UPPER = 2*np.pi
 AMPLITUDE = np.pi/4
 FREQUENCY = 10
 PHASE_OFFSET = np.pi
+
+# search variables
+NUMBER_OF_GENERATIONS = 2
