@@ -17,18 +17,17 @@ class PARALLEL_HILL_CLIMBER:
     
     def Evolve(self):
         #self.parent.Start_Simulation("GUI")
-        #for currentGeneration in range(0, c.NUMBER_OF_GENERATIONS):
-        #    
-        self.Evaluate(self.parents)
-        self.Evolve_For_One_Generation()
+        for currentGeneration in range(0, c.NUMBER_OF_GENERATIONS):
+            self.Evaluate(self.parents)
+            self.Evolve_For_One_Generation() 
 
     
     def Evolve_For_One_Generation(self):
         self.Spawn()
         self.Mutate()
         self.Evaluate(self.children)
-        #print("\nParent fitness: " + str(self.parent.fitness) + " Child fitness: " + str(self.child.fitness) + "\n")
-        #self.Select()
+        self.Print()
+        self.Select()
     
 
     def Spawn(self):
@@ -45,17 +44,33 @@ class PARALLEL_HILL_CLIMBER:
     
 
     def Select(self):
-        if self.parent.fitness > self.child.fitness:
-            self.parent = self.child
+       for i in self.children:
+           if self.children[i].fitness < self.parents[i].fitness:
+               self.parents[i] = self.children[i]
 
     
     def Show_Best(self):
+        lowest = self.parents[0].fitness
+        lowestID = self.parents[0].myID
+        for parent in self.parents:
+            if self.parents[parent].fitness < lowest:
+                lowest = self.parents[parent].fitness
+                lowestID = self.parents[parent].myID
+        for parent in self.parents:
+            if self.parents[parent].myID == lowestID:
+                self.parents[parent].Start_Simulation("GUI")
         #self.child.Evaluate("GUI")
-        pass
 
 
     def Evaluate(self, solutions):
-        for parent in solutions:
-            self.parents[parent].Start_Simulation("DIRECT")
-        for parent in solutions:
-            self.parents[parent].Wait_For_Simulation_To_End()
+        for i in solutions:
+            solutions[i].Start_Simulation("DIRECT")
+        for j in solutions:
+            solutions[j].Wait_For_Simulation_To_End()
+
+
+    def Print(self):
+        print("\n")
+        for i in range(0, len(self.parents)):
+            print("Parent fitness: " + str(self.parents[i].fitness) + " Child fitness: " + str(self.children[i].fitness))
+        print("\n")

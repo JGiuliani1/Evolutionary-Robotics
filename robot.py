@@ -4,6 +4,7 @@ import pyrosim.pyrosim as pyrosim
 from sensor import SENSOR
 from motor import MOTOR
 import os
+import time
 
 class ROBOT:
 
@@ -15,6 +16,8 @@ class ROBOT:
         self.Prepare_To_Act()
         self.solutionID = solutionID
         brainFile = "brain" + str(self.solutionID) + ".nndf"
+        while not os.path.exists(brainFile):
+            time.sleep(0.01)
         self.nn = NEURAL_NETWORK(brainFile)
         os.system("del " + brainFile)
     
