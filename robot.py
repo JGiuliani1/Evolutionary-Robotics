@@ -1,3 +1,4 @@
+import constants as c
 import pybullet as p
 from pyrosim.neuralNetwork import NEURAL_NETWORK
 import pyrosim.pyrosim as pyrosim
@@ -10,6 +11,8 @@ class ROBOT:
 
     def __init__(self, solutionID):
         # create robot ID
+        while not os.path.exists("body.urdf"):
+            time.sleep(0.01)
         self.robotID = p.loadURDF("body.urdf")
         pyrosim.Prepare_To_Simulate(self.robotID)
         self.Prepare_To_Sense()
@@ -43,7 +46,7 @@ class ROBOT:
         for neuronName in self.nn.Get_Neuron_Names():
             if self.nn.Is_Motor_Neuron(neuronName):
                 jointName = self.nn.Get_Motor_Nuerons_Joint(neuronName)
-                desiredAngle = self.nn.Get_Value_Of(neuronName)
+                desiredAngle = self.nn.Get_Value_Of(neuronName) * c.MOTOR_JOINT_RANGE
                 self.motors[jointName].Set_Value(desiredAngle, self.robotID)
 
 
