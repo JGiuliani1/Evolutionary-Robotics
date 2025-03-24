@@ -59,7 +59,6 @@ class PARALLEL_HILL_CLIMBER:
         for parent in self.parents:
             if self.parents[parent].myID == lowestID:
                 self.parents[parent].Start_Simulation("GUI")
-        #self.child.Evaluate("GUI")
 
 
     def Evaluate(self, solutions):
