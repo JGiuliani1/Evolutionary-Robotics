@@ -11,8 +11,10 @@ class PARALLEL_HILL_CLIMBER:
         for i in range(0, c.POPULATION_SIZE):
             self.parents[i] = SOLUTION(self.nextAvailableID)
             self.nextAvailableID += 1
-        os.system("del del brain*.nndf")
+        os.system("del brain*.nndf")
         os.system("del fitness*.txt")
+        os.system("del world*.sdf")
+        os.system("del body*.urdf")
 
     
     def Evolve(self):

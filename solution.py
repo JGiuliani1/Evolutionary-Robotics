@@ -32,7 +32,8 @@ class SOLUTION:
 
     def Create_World(self):
         # create file to information about link
-        pyrosim.Start_SDF("world.sdf")
+        worldFile = "world" + str(self.myID) + ".sdf"
+        pyrosim.Start_SDF(worldFile)
 
         # generate box
         #pyrosim.Send_Cube(name="Box", pos=[-2,-2,.5] , size=[1,1,1])
@@ -42,7 +43,8 @@ class SOLUTION:
 
 
     def Generate_Body(self):
-        pyrosim.Start_URDF("body.urdf")
+        bodyFile = "body" + str(self.myID) + ".urdf"
+        pyrosim.Start_URDF(bodyFile)
 
         # torso
         pyrosim.Send_Cube(name="Torso", pos=[0,0,1], size=[1,1,1])

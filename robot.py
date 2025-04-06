@@ -11,13 +11,17 @@ class ROBOT:
 
     def __init__(self, solutionID):
         # create robot ID
-        while not os.path.exists("body.urdf"):
+        self.solutionID = solutionID
+
+        bodyFile = "body" + str(self.solutionID) + ".urdf"
+        while not os.path.exists(bodyFile):
             time.sleep(0.01)
-        self.robotID = p.loadURDF("body.urdf")
+        self.robotID = p.loadURDF(bodyFile)
+        os.system("del " + bodyFile)
+
         pyrosim.Prepare_To_Simulate(self.robotID)
         self.Prepare_To_Sense()
         self.Prepare_To_Act()
-        self.solutionID = solutionID
         brainFile = "brain" + str(self.solutionID) + ".nndf"
         while not os.path.exists(brainFile):
             time.sleep(0.01)
@@ -66,11 +70,11 @@ class ROBOT:
             else:
                 current_num_steps_in_air = 0
             
-        """ save to maximize z value
-        stateOfLinkZero = p.getLinkState(self.robotID, 0)
-        positionOfLinkZero = stateOfLinkZero[0]
-        xCoordinateOfLinkZero = positionOfLinkZero[0]"""
-        
+        """ change to maximize z value and add to fitness value
+        basePositionAndOrientation = p.getBasePositionAndOrientation(self.robot)
+        basePosition = basePositionAndOrientation[0]
+        xPosition = basePosition[0]"""
+
         tempFile = "tmp" + str(self.solutionID) + ".txt"
         fitnessFile = "fitness" + str(self.solutionID) + ".txt"
         file = open(tempFile, "w")
