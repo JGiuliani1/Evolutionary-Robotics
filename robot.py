@@ -12,6 +12,7 @@ class ROBOT:
     def __init__(self, solutionID):
         # create robot ID
         self.solutionID = solutionID
+        self.z_values = []
 
         bodyFile = "body" + str(self.solutionID) + ".urdf"
         while not os.path.exists(bodyFile):
@@ -53,32 +54,37 @@ class ROBOT:
                 desiredAngle = self.nn.Get_Value_Of(neuronName) * c.MOTOR_JOINT_RANGE
                 self.motors[jointName].Set_Value(desiredAngle, self.robotID)
 
+    
+    def SaveZ(self):
+        basePositionAndOrientation = p.getBasePositionAndOrientation(self.robotID)
+        basePosition = basePositionAndOrientation[0]
+        zPosition = basePosition[2]
+        self.z_values.append(zPosition)
+
 
     def Think(self):
         self.nn.Update()
 
 
     def Get_Fitness(self):
-        num_values = len(self.sensors["LowerFrontLeg"].values)
         current_num_steps_in_air = 0
         max_num_steps_in_air = 0
-        for i in range(num_values):
+        max_z_value = 0
+        for i in range(c.NUM_ITERATIONS):
             if self.sensors["LowerFrontLeg"].values[i] == -1 and self.sensors["LowerBackLeg"].values[i] == -1 and self.sensors["LowerRightLeg"].values[i] == -1 and self.sensors["LowerLeftLeg"].values[i] == -1:
                 current_num_steps_in_air += 1
                 if current_num_steps_in_air > max_num_steps_in_air:
                     max_num_steps_in_air = current_num_steps_in_air
+                if self.z_values[i] > max_z_value:
+                    max_z_value = self.z_values[i]
             else:
                 current_num_steps_in_air = 0
-            
-        """ change to maximize z value and add to fitness value
-        basePositionAndOrientation = p.getBasePositionAndOrientation(self.robot)
-        basePosition = basePositionAndOrientation[0]
-        xPosition = basePosition[0]"""
 
+        fitness_value = max_num_steps_in_air + max_z_value
         tempFile = "tmp" + str(self.solutionID) + ".txt"
         fitnessFile = "fitness" + str(self.solutionID) + ".txt"
         file = open(tempFile, "w")
-        file.write(str(max_num_steps_in_air))
+        file.write(str(fitness_value))
         file.close()
         os.system("rename " + tempFile + " " + fitnessFile)
         exit()

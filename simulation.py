@@ -36,6 +36,7 @@ class SIMULATION:
             self.robot.Sense(step)
             self.robot.Think()
             self.robot.Act(step)
+            self.robot.SaveZ()
             time.sleep(self.sleepTime)
 
     

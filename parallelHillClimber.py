@@ -52,14 +52,14 @@ class PARALLEL_HILL_CLIMBER:
 
     
     def Show_Best(self):
-        lowest = self.parents[0].fitness
-        lowestID = self.parents[0].myID
+        best = self.parents[0].fitness
+        bestID = self.parents[0].myID
         for parent in self.parents:
-            if self.parents[parent].fitness < lowest:
-                lowest = self.parents[parent].fitness
-                lowestID = self.parents[parent].myID
+            if self.parents[parent].fitness > best:
+                best = self.parents[parent].fitness
+                bestID = self.parents[parent].myID
         for parent in self.parents:
-            if self.parents[parent].myID == lowestID:
+            if self.parents[parent].myID == bestID:
                 self.parents[parent].Start_Simulation("GUI")
 
 
