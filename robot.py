@@ -55,13 +55,26 @@ class ROBOT:
 
 
     def Get_Fitness(self):
+        num_values = len(self.sensors["LowerFrontLeg"].values)
+        current_num_steps_in_air = 0
+        max_num_steps_in_air = 0
+        for i in range(num_values):
+            if self.sensors["LowerFrontLeg"].values[i] == -1 and self.sensors["LowerBackLeg"].values[i] == -1 and self.sensors["LowerRightLeg"].values[i] == -1 and self.sensors["LowerLeftLeg"].values[i] == -1:
+                current_num_steps_in_air += 1
+                if current_num_steps_in_air > max_num_steps_in_air:
+                    max_num_steps_in_air = current_num_steps_in_air
+            else:
+                current_num_steps_in_air = 0
+            
+        """ save to maximize z value
         stateOfLinkZero = p.getLinkState(self.robotID, 0)
         positionOfLinkZero = stateOfLinkZero[0]
-        xCoordinateOfLinkZero = positionOfLinkZero[0]
+        xCoordinateOfLinkZero = positionOfLinkZero[0]"""
+        
         tempFile = "tmp" + str(self.solutionID) + ".txt"
         fitnessFile = "fitness" + str(self.solutionID) + ".txt"
         file = open(tempFile, "w")
-        file.write(str(xCoordinateOfLinkZero))
+        file.write(str(max_num_steps_in_air))
         file.close()
         os.system("rename " + tempFile + " " + fitnessFile)
         exit()
