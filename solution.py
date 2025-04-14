@@ -7,7 +7,6 @@ import time
 
 class SOLUTION:
     def __init__(self, myID):
-        # CHANGE SOMETHING HERE? STEP 50
         self.weights = np.random.rand(c.NUM_SENSOR_NEURONS, c.NUM_MOTOR_NEURONS)
         self.weights = self.weights * 2 - 1
         self.myID = myID
@@ -22,21 +21,24 @@ class SOLUTION:
 
     def Wait_For_Simulation_To_End(self):
         fitnessFile = "fitness" + str(self.myID) + ".txt"
-        while not os.path.exists(fitnessFile):
-            time.sleep(0.01)
-        file = open(fitnessFile, "r")
-        self.fitness = float(file.read())
-        file.close()
-        os.system("del " + fitnessFile)
+        while True:
+            if os.path.exists(fitnessFile):
+                try:
+                    file = open(fitnessFile, "r")
+                    self.fitness = float(file.read())
+                    file.close()
+                    os.system("del " + fitnessFile)
+                    break
+                except PermissionError:
+                    time.sleep(0.01)
+            else:
+                time.sleep(0.01)
     
 
     def Create_World(self):
         # create file to information about link
         worldFile = "world" + str(self.myID) + ".sdf"
         pyrosim.Start_SDF(worldFile)
-
-        # generate box
-        #pyrosim.Send_Cube(name="Box", pos=[-2,-2,.5] , size=[1,1,1])
 
         # end program and close sdf file
         pyrosim.End()

@@ -9,7 +9,7 @@ import time
 
 class ROBOT:
 
-    def __init__(self, solutionID):
+    def __init__(self, solutionID, save):
         # create robot ID
         self.solutionID = solutionID
         self.z_values = []
@@ -18,7 +18,8 @@ class ROBOT:
         while not os.path.exists(bodyFile):
             time.sleep(0.01)
         self.robotID = p.loadURDF(bodyFile)
-        os.system("del " + bodyFile)
+        if save == False:
+            os.system("del " + bodyFile)
 
         pyrosim.Prepare_To_Simulate(self.robotID)
         self.Prepare_To_Sense()
@@ -27,7 +28,8 @@ class ROBOT:
         while not os.path.exists(brainFile):
             time.sleep(0.01)
         self.nn = NEURAL_NETWORK(brainFile)
-        os.system("del " + brainFile)
+        if save == False:
+            os.system("del " + brainFile)
     
 
     def Prepare_To_Sense(self):
@@ -69,18 +71,23 @@ class ROBOT:
     def Get_Fitness(self):
         current_num_steps_in_air = 0
         max_num_steps_in_air = 0
-        max_z_value = 0
+        current_total_z_value = 0
+        max_avg_z_value = 0
         for i in range(c.NUM_ITERATIONS):
             if self.sensors["LowerFrontLeg"].values[i] == -1 and self.sensors["LowerBackLeg"].values[i] == -1 and self.sensors["LowerRightLeg"].values[i] == -1 and self.sensors["LowerLeftLeg"].values[i] == -1:
                 current_num_steps_in_air += 1
+                current_total_z_value += self.z_values[i]
                 if current_num_steps_in_air > max_num_steps_in_air:
                     max_num_steps_in_air = current_num_steps_in_air
-                if self.z_values[i] > max_z_value:
-                    max_z_value = self.z_values[i]
+                if current_total_z_value/current_num_steps_in_air > max_avg_z_value:
+                    max_avg_z_value = current_total_z_value/current_num_steps_in_air
+                """if self.z_values[i] > max_z_value:
+                    max_z_value = self.z_values[i]"""
             else:
                 current_num_steps_in_air = 0
+                current_total_z_value = 0
 
-        fitness_value = max_num_steps_in_air + max_z_value
+        fitness_value = max_num_steps_in_air * max_avg_z_value
         tempFile = "tmp" + str(self.solutionID) + ".txt"
         fitnessFile = "fitness" + str(self.solutionID) + ".txt"
         file = open(tempFile, "w")
