@@ -87,7 +87,8 @@ class ROBOT:
                 current_num_steps_in_air = 0
                 current_total_z_value = 0
 
-        fitness_value = max_num_steps_in_air * max_avg_z_value
+        #fitness_value = max_num_steps_in_air * max_avg_z_value
+        fitness_value = str(max_num_steps_in_air) + ", " + str(max_avg_z_value)
         tempFile = "tmp" + str(self.solutionID) + ".txt"
         fitnessFile = "fitness" + str(self.solutionID) + ".txt"
         file = open(tempFile, "w")

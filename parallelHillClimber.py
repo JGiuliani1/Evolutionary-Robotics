@@ -46,17 +46,32 @@ class PARALLEL_HILL_CLIMBER:
     
 
     def Select(self):
-       for i in self.children:
+       """for i in self.children:
            if self.children[i].fitness > self.parents[i].fitness:
+               self.parents[i] = self.children[i]"""
+       for i in self.children:
+           child_fitness = self.children[i].fitness.split()
+           parent_fitness = self.parents[i].fitness.split()
+           if child_fitness[0] > parent_fitness[0] and child_fitness[1] > parent_fitness[1]:
                self.parents[i] = self.children[i]
 
     
     def Show_Best(self):
-        best = self.parents[0].fitness
+        """best = self.parents[0].fitness
         bestID = self.parents[0].myID
         for parent in self.parents:
             if self.parents[parent].fitness > best:
                 best = self.parents[parent].fitness
+                bestID = self.parents[parent].myID
+        for parent in self.parents:
+            if self.parents[parent].myID == bestID:
+                self.parents[parent].Start_Simulation("GUI")"""
+        best_fitness = self.parents[0].fitness.split()
+        bestID = self.parents[0].myID
+        for parent in self.parents:
+            current_fitness = self.parents[parent].fitness.split()
+            if current_fitness[0] > best_fitness[0] and current_fitness[1] > best_fitness[1]:
+                best_fitness = self.parents[parent].fitness.split()
                 bestID = self.parents[parent].myID
         for parent in self.parents:
             if self.parents[parent].myID == bestID:
