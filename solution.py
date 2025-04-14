@@ -25,8 +25,8 @@ class SOLUTION:
             if os.path.exists(fitnessFile):
                 try:
                     file = open(fitnessFile, "r")
-                    #self.fitness = float(file.read())
-                    self.fitness = file.read()
+                    #self.fitness = float(file.read()) # normal fitness
+                    self.fitness = file.read() # MOO
                     file.close()
                     os.system("del " + fitnessFile)
                     break

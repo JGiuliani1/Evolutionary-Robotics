@@ -81,14 +81,12 @@ class ROBOT:
                     max_num_steps_in_air = current_num_steps_in_air
                 if current_total_z_value/current_num_steps_in_air > max_avg_z_value:
                     max_avg_z_value = current_total_z_value/current_num_steps_in_air
-                """if self.z_values[i] > max_z_value:
-                    max_z_value = self.z_values[i]"""
             else:
                 current_num_steps_in_air = 0
                 current_total_z_value = 0
 
-        #fitness_value = max_num_steps_in_air * max_avg_z_value
-        fitness_value = str(max_num_steps_in_air) + ", " + str(max_avg_z_value)
+        #fitness_value = max_num_steps_in_air * max_avg_z_value # normal fitness
+        fitness_value = str(max_num_steps_in_air) + ", " + str(max_avg_z_value) # MOO
         tempFile = "tmp" + str(self.solutionID) + ".txt"
         fitnessFile = "fitness" + str(self.solutionID) + ".txt"
         file = open(tempFile, "w")
