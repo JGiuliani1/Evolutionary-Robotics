@@ -13,6 +13,7 @@ class ROBOT:
         # create robot ID
         self.solutionID = solutionID
         self.z_values = []
+        self.x_values = []
 
         bodyFile = "body" + str(self.solutionID) + ".urdf"
         while not os.path.exists(bodyFile):
@@ -62,13 +63,20 @@ class ROBOT:
         basePosition = basePositionAndOrientation[0]
         zPosition = basePosition[2]
         self.z_values.append(zPosition)
+    
+
+    def SaveX(self):
+        basePositionAndOrientation = p.getBasePositionAndOrientation(self.robotID)
+        basePosition = basePositionAndOrientation[0]
+        xPosition = basePosition[0]
+        self.x_values.append(xPosition)
 
 
     def Think(self):
         self.nn.Update()
 
 
-    def Get_Fitness(self):
+    def Get_Fitness_A(self):
         current_num_steps_in_air = 0
         max_num_steps_in_air = 0
         current_total_z_value = 0
@@ -85,8 +93,49 @@ class ROBOT:
                 current_num_steps_in_air = 0
                 current_total_z_value = 0
 
-        #fitness_value = max_num_steps_in_air * max_avg_z_value # normal fitness
-        fitness_value = str(max_num_steps_in_air) + ", " + str(max_avg_z_value) # MOO
+        fitness_value = max_num_steps_in_air * max_avg_z_value # normal fitness
+        #fitness_value = str(max_num_steps_in_air) + ", " + str(max_avg_z_value) # MOO
+        tempFile = "tmp" + str(self.solutionID) + ".txt"
+        fitnessFile = "fitness" + str(self.solutionID) + ".txt"
+        file = open(tempFile, "w")
+        file.write(str(fitness_value))
+        file.close()
+        os.system("rename " + tempFile + " " + fitnessFile)
+        exit()
+
+
+    def Get_Fitness_B(self):
+        current_num_steps_in_air = 0
+        current_x_displacement = 0
+        current_max_z = 0
+        current_x_values = []
+        best_performence = [0, 0, 0]
+
+        for i in range(c.NUM_ITERATIONS):
+            if self.sensors["LowerFrontLeg"].values[i] == -1 and self.sensors["LowerBackLeg"].values[i] == -1 and self.sensors["LowerRightLeg"].values[i] == -1 and self.sensors["LowerLeftLeg"].values[i] == -1:
+                current_num_steps_in_air += 1
+                current_x_values.append(self.x_values[i])
+
+                starting_x_value = current_x_values[0]
+                for value in current_x_values:
+                    current_x_displacement += value - starting_x_value
+
+                if self.z_values[i] > current_max_z:
+                    current_max_z = self.z_values[i]
+
+                if current_num_steps_in_air >= best_performence[0] and current_x_displacement >= best_performence[1] and current_max_z >= best_performence[2]:
+                    best_performence[0] = current_num_steps_in_air
+                    best_performence[1] = current_x_displacement
+                    best_performence[2] = current_max_z
+
+            else:
+                current_num_steps_in_air = 0
+                current_x_displacement = 0
+                current_max_z = 0
+                current_x_values = []
+
+        fitness_value = best_performence[0] * best_performence[1] * best_performence[2] # normal fitness
+        #fitness_value = str(max_num_steps_in_air) + ", " + str(max_avg_z_value) # MOO
         tempFile = "tmp" + str(self.solutionID) + ".txt"
         fitnessFile = "fitness" + str(self.solutionID) + ".txt"
         file = open(tempFile, "w")

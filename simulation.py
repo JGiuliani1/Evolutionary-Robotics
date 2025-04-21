@@ -39,6 +39,7 @@ class SIMULATION:
             self.robot.Think()
             self.robot.Act(step)
             self.robot.SaveZ()
+            self.robot.SaveX()
             time.sleep(self.sleepTime)
 
     
@@ -48,5 +49,7 @@ class SIMULATION:
             np.save(fileName, self.robot.sensors[sensor].values)
 
 
+    # CHANGE HERE FOR A/B TESTING
     def Get_Fitness(self):
-        self.robot.Get_Fitness()
+        #self.robot.Get_Fitness_A()
+        self.robot.Get_Fitness_B()
