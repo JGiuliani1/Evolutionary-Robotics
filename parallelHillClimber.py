@@ -28,6 +28,7 @@ class PARALLEL_HILL_CLIMBER:
         self.Spawn()
         self.Mutate()
         self.Evaluate(self.children)
+        self.Calculate_Average_Fitness()
         self.Print()
         self.Select()
     
@@ -51,11 +52,18 @@ class PARALLEL_HILL_CLIMBER:
            if self.children[i].fitness > self.parents[i].fitness:
                self.parents[i] = self.children[i]
        
-       # MOO
+       # MOO Test A
        """for i in self.children:
            child_fitness = self.children[i].fitness.split()
            parent_fitness = self.parents[i].fitness.split()
            if child_fitness[0] > parent_fitness[0] and child_fitness[1] > parent_fitness[1]:
+               self.parents[i] = self.children[i]"""
+       
+       # MOO Test B
+       """for i in self.children:
+           child_fitness = self.children[i].fitness.split()
+           parent_fitness = self.parents[i].fitness.split()
+           if child_fitness[0] > parent_fitness[0] and child_fitness[1] > parent_fitness[1] and child_fitness[2] > parent_fitness[2]:
                self.parents[i] = self.children[i]"""
 
     
@@ -70,13 +78,25 @@ class PARALLEL_HILL_CLIMBER:
         for parent in self.parents:
             if self.parents[parent].myID == bestID:
                 self.parents[parent].Start_Simulation("GUI")
-        
-        # MOO
+
+        # MOO Test A
         """best_fitness = self.parents[0].fitness.split()
         bestID = self.parents[0].myID
         for parent in self.parents:
             current_fitness = self.parents[parent].fitness.split()
             if current_fitness[0] > best_fitness[0] and current_fitness[1] > best_fitness[1]:
+                best_fitness = self.parents[parent].fitness.split()
+                bestID = self.parents[parent].myID
+        for parent in self.parents:
+            if self.parents[parent].myID == bestID:
+                self.parents[parent].Start_Simulation("GUI")"""
+        
+        # MOO Test B
+        """best_fitness = self.parents[0].fitness.split()
+        bestID = self.parents[0].myID
+        for parent in self.parents:
+            current_fitness = self.parents[parent].fitness.split()
+            if current_fitness[0] > best_fitness[0] and current_fitness[1] > best_fitness[1] and child_fitness[2] > parent_fitness[2]:
                 best_fitness = self.parents[parent].fitness.split()
                 bestID = self.parents[parent].myID
         for parent in self.parents:
@@ -91,8 +111,22 @@ class PARALLEL_HILL_CLIMBER:
             solutions[j].Wait_For_Simulation_To_End()
 
 
+    def Calculate_Average_Fitness(self):
+        # calculate average fitness of parent population
+        total_parent_fitness = 0
+        for parent in self.parents:
+            total_parent_fitness += self.parents[parent].fitness
+        self.average_parent_fitness = total_parent_fitness / len(self.parents)
+
+        # save value to file
+        file = open("averageFitness.txt", "a")
+        file.write(str(self.average_parent_fitness))
+        file.close()
+
+
     def Print(self):
         print("\n")
         for i in range(0, len(self.parents)):
             print("Parent fitness: " + str(self.parents[i].fitness) + " Child fitness: " + str(self.children[i].fitness))
+        print("Average parent fitness: ", str(self.average_parent_fitness))
         print("\n")
