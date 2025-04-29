@@ -18,7 +18,6 @@ class PARALLEL_HILL_CLIMBER:
 
     
     def Evolve(self):
-        #self.parent.Start_Simulation("GUI")
         for currentGeneration in range(0, c.NUMBER_OF_GENERATIONS):
             self.Evaluate(self.parents)
             self.Evolve_For_One_Generation() 
@@ -102,6 +101,11 @@ class PARALLEL_HILL_CLIMBER:
         for parent in self.parents:
             if self.parents[parent].myID == bestID:
                 self.parents[parent].Start_Simulation("GUI")"""
+        
+
+    def Show_All(self):
+        for parent in self.parents:
+            self.parents[parent].Start_Simulation("GUI")
 
 
     def Evaluate(self, solutions):
@@ -120,7 +124,7 @@ class PARALLEL_HILL_CLIMBER:
 
         # save value to file
         file = open("averageFitness.txt", "a")
-        file.write(str(self.average_parent_fitness))
+        file.write(str(self.average_parent_fitness) + "\n")
         file.close()
 
 
