@@ -19,7 +19,7 @@ class ROBOT:
         while not os.path.exists(bodyFile):
             time.sleep(0.01)
         self.robotID = p.loadURDF(bodyFile)
-        if save == False:
+        if save == "False":
             os.system("del " + bodyFile)
 
         pyrosim.Prepare_To_Simulate(self.robotID)
@@ -29,7 +29,7 @@ class ROBOT:
         while not os.path.exists(brainFile):
             time.sleep(0.01)
         self.nn = NEURAL_NETWORK(brainFile)
-        if save == False:
+        if save == "False":
             os.system("del " + brainFile)
     
 

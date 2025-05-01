@@ -8,16 +8,14 @@ from world import WORLD
 
 class SIMULATION:
 
-    def __init__(self, directOrGUI, solutionID):
+    def __init__(self, directOrGUI, solutionID, save):
         # create client to connect with pybullet
-        save = False
         if directOrGUI == "DIRECT":
             self.physicsClient = p.connect(p.DIRECT)
             self.sleepTime = 1/1000
         else:
             self.physicsClient = p.connect(p.GUI)
             self.sleepTime = c.SLEEP_TIME
-            save = True
         # path for pybullet_data
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
         # add gravity

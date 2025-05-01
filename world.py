@@ -10,5 +10,5 @@ class WORLD:
         # read world from box.sdf
         worldFile = "world" + str(self.solutionID) + ".sdf"
         p.loadSDF(worldFile)
-        if save == False:
+        if save == "False":
             os.system("del " + worldFile)

@@ -12,11 +12,11 @@ class SOLUTION_HEX:
         self.myID = myID
     
 
-    def Start_Simulation(self, directOrGUI):
+    def Start_Simulation(self, directOrGUI, save):
         self.Create_World()
         self.Generate_Body()
         self.Generate_Brain()
-        os.system("start /B python simulate.py " + directOrGUI + " " + str(self.myID) + " 2>&1 &")
+        os.system("start /B python simulate.py " + directOrGUI + " " + str(self.myID) + " " + str(save) + " 2>&1 &")
 
 
     def Wait_For_Simulation_To_End(self):

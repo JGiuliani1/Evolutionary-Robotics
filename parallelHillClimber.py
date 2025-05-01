@@ -10,7 +10,6 @@ class PARALLEL_HILL_CLIMBER:
         self.parents = {}
         self.nextAvailableID = 0
         for i in range(0, c.POPULATION_SIZE):
-            # CHANGE HERE FOR A/B TESTING
             #self.parents[i] = SOLUTION(self.nextAvailableID) # quadruped
             self.parents[i] = SOLUTION_HEX(self.nextAvailableID) # hexapod
             self.nextAvailableID += 1
@@ -49,14 +48,12 @@ class PARALLEL_HILL_CLIMBER:
     
 
     def Select(self):
-       # normal fitness
        for i in self.children:
            if self.children[i].fitness > self.parents[i].fitness:
                self.parents[i] = self.children[i]
 
     
     def Show_Best(self):
-        # normal fitness
         best = self.parents[0].fitness
         bestID = self.parents[0].myID
         for parent in self.parents:
@@ -65,17 +62,24 @@ class PARALLEL_HILL_CLIMBER:
                 bestID = self.parents[parent].myID
         for parent in self.parents:
             if self.parents[parent].myID == bestID:
-                self.parents[parent].Start_Simulation("GUI")
+                self.parents[parent].Start_Simulation("GUI", False)
+
+    
+    def Save_Final_Fitness(self):
+        file = open("finalFitness.txt", 'a')
+        for parent in self.parents:
+            file.write(str(self.parents[parent].myID) + ": " + str(self.parents[parent].fitness) + "\n")
+        file.close()    
         
 
-    def Show_All(self):
+    def Save_All(self):
         for parent in self.parents:
-            self.parents[parent].Start_Simulation("GUI")
+            self.parents[parent].Start_Simulation("DIRECT", True)
 
 
     def Evaluate(self, solutions):
         for i in solutions:
-            solutions[i].Start_Simulation("DIRECT")
+            solutions[i].Start_Simulation("DIRECT", False)
         for j in solutions:
             solutions[j].Wait_For_Simulation_To_End()
 
