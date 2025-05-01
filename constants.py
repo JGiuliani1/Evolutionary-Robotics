@@ -16,10 +16,14 @@ FREQUENCY = 10
 PHASE_OFFSET = np.pi
 
 # search variables
-NUMBER_OF_GENERATIONS = 3
-POPULATION_SIZE = 5
+NUMBER_OF_GENERATIONS = 1
+POPULATION_SIZE = 1
 
-# robot variables
+# robot variables quadraped
 NUM_SENSOR_NEURONS = 4
 NUM_MOTOR_NEURONS = 8
 MOTOR_JOINT_RANGE = 0.2
+
+# robot variables hexapod
+NUM_SENSOR_NEURONS_HEX = 6
+NUM_MOTOR_NEURONS_HEX = 12

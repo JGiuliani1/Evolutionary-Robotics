@@ -2,6 +2,7 @@ import constants as c
 import copy
 import os
 from solution import SOLUTION
+from solutionHex import SOLUTION_HEX
 
 
 class PARALLEL_HILL_CLIMBER:
@@ -9,7 +10,9 @@ class PARALLEL_HILL_CLIMBER:
         self.parents = {}
         self.nextAvailableID = 0
         for i in range(0, c.POPULATION_SIZE):
-            self.parents[i] = SOLUTION(self.nextAvailableID)
+            # CHANGE HERE FOR A/B TESTING
+            #self.parents[i] = SOLUTION(self.nextAvailableID) # quadruped
+            self.parents[i] = SOLUTION_HEX(self.nextAvailableID) # hexapod
             self.nextAvailableID += 1
         os.system("del brain*.nndf")
         os.system("del fitness*.txt")
@@ -50,20 +53,6 @@ class PARALLEL_HILL_CLIMBER:
        for i in self.children:
            if self.children[i].fitness > self.parents[i].fitness:
                self.parents[i] = self.children[i]
-       
-       # MOO Test A
-       """for i in self.children:
-           child_fitness = self.children[i].fitness.split()
-           parent_fitness = self.parents[i].fitness.split()
-           if child_fitness[0] > parent_fitness[0] and child_fitness[1] > parent_fitness[1]:
-               self.parents[i] = self.children[i]"""
-       
-       # MOO Test B
-       """for i in self.children:
-           child_fitness = self.children[i].fitness.split()
-           parent_fitness = self.parents[i].fitness.split()
-           if child_fitness[0] > parent_fitness[0] and child_fitness[1] > parent_fitness[1] and child_fitness[2] > parent_fitness[2]:
-               self.parents[i] = self.children[i]"""
 
     
     def Show_Best(self):
@@ -77,30 +66,6 @@ class PARALLEL_HILL_CLIMBER:
         for parent in self.parents:
             if self.parents[parent].myID == bestID:
                 self.parents[parent].Start_Simulation("GUI")
-
-        # MOO Test A
-        """best_fitness = self.parents[0].fitness.split()
-        bestID = self.parents[0].myID
-        for parent in self.parents:
-            current_fitness = self.parents[parent].fitness.split()
-            if current_fitness[0] > best_fitness[0] and current_fitness[1] > best_fitness[1]:
-                best_fitness = self.parents[parent].fitness.split()
-                bestID = self.parents[parent].myID
-        for parent in self.parents:
-            if self.parents[parent].myID == bestID:
-                self.parents[parent].Start_Simulation("GUI")"""
-        
-        # MOO Test B
-        """best_fitness = self.parents[0].fitness.split()
-        bestID = self.parents[0].myID
-        for parent in self.parents:
-            current_fitness = self.parents[parent].fitness.split()
-            if current_fitness[0] > best_fitness[0] and current_fitness[1] > best_fitness[1] and child_fitness[2] > parent_fitness[2]:
-                best_fitness = self.parents[parent].fitness.split()
-                bestID = self.parents[parent].myID
-        for parent in self.parents:
-            if self.parents[parent].myID == bestID:
-                self.parents[parent].Start_Simulation("GUI")"""
         
 
     def Show_All(self):

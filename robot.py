@@ -76,7 +76,7 @@ class ROBOT:
         self.nn.Update()
 
 
-    def Get_Fitness_A(self):
+    def Get_Fitness_Quadruped(self):
         current_num_steps_in_air = 0
         current_max_z = 0
         best_performance = [0, 0]
@@ -94,8 +94,7 @@ class ROBOT:
                 current_num_steps_in_air = 0
                 current_max_z = 0
 
-        fitness_value = best_performance[0] * best_performance[1] # normal fitness
-        #fitness_value = str(max_num_steps_in_air) + ", " + str(max_avg_z_value) # MOO
+        fitness_value = best_performance[0] * best_performance[1]
         tempFile = "tmp" + str(self.solutionID) + ".txt"
         fitnessFile = "fitness" + str(self.solutionID) + ".txt"
         file = open(tempFile, "w")
@@ -105,38 +104,25 @@ class ROBOT:
         exit()
 
 
-    def Get_Fitness_B(self):
+    def Get_Fitness_Hexapod(self):
         current_num_steps_in_air = 0
-        current_x_displacement = 0
         current_max_z = 0
-        current_x_values = []
-        best_performance = [0, 0, 0]
+        best_performance = [0, 0]
 
         for i in range(c.NUM_ITERATIONS):
-            if self.sensors["LowerFrontLeg"].values[i] == -1 and self.sensors["LowerBackLeg"].values[i] == -1 and self.sensors["LowerRightLeg"].values[i] == -1 and self.sensors["LowerLeftLeg"].values[i] == -1:
+            if self.sensors["LowerFrontLeg"].values[i] == -1 and self.sensors["LowerBackLeg"].values[i] == -1 and self.sensors["LowerRightLeg1"].values[i] == -1 and self.sensors["LowerLeftLeg1"].values[i] == -1 and self.sensors["LowerRightLeg2"].values[i] == -1 and self.sensors["LowerLeftLeg2"].values[i] == -1:
                 current_num_steps_in_air += 1
-                current_x_values.append(self.x_values[i])
-
-                starting_x_value = current_x_values[0]
-                for value in current_x_values:
-                    current_x_displacement += value - starting_x_value
-
                 if self.z_values[i] > current_max_z:
                     current_max_z = self.z_values[i]
 
-                if current_num_steps_in_air >= best_performance[0] and current_x_displacement >= best_performance[1] and current_max_z >= best_performance[2]:
+                if current_num_steps_in_air >= best_performance[0] and current_max_z >= best_performance[1]:
                     best_performance[0] = current_num_steps_in_air
-                    best_performance[1] = current_x_displacement
-                    best_performance[2] = current_max_z
-
+                    best_performance[1] = current_max_z
             else:
                 current_num_steps_in_air = 0
-                current_x_displacement = 0
                 current_max_z = 0
-                current_x_values = []
 
-        #fitness_value = best_performance[0] * best_performance[1] * best_performance[2] # normal fitness
-        fitness_value = str(best_performance[0]) + ", " + str(best_performance[1]) + ", " + str(best_performance[2]) # MOO
+        fitness_value = best_performance[0] * best_performance[1]
         tempFile = "tmp" + str(self.solutionID) + ".txt"
         fitnessFile = "fitness" + str(self.solutionID) + ".txt"
         file = open(tempFile, "w")
