@@ -49,5 +49,5 @@ class SIMULATION:
 
     # CHANGE HERE FOR A/B TESTING
     def Get_Fitness(self):
-        #self.robot.Get_Fitness_Quadruped()
-        self.robot.Get_Fitness_Hexapod()
+        self.robot.Get_Fitness_Quadruped()
+        #self.robot.Get_Fitness_Hexapod()

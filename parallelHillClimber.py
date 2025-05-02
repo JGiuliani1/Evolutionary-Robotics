@@ -10,8 +10,8 @@ class PARALLEL_HILL_CLIMBER:
         self.parents = {}
         self.nextAvailableID = 0
         for i in range(0, c.POPULATION_SIZE):
-            #self.parents[i] = SOLUTION(self.nextAvailableID) # quadruped
-            self.parents[i] = SOLUTION_HEX(self.nextAvailableID) # hexapod
+            self.parents[i] = SOLUTION(self.nextAvailableID) # quadruped
+            #self.parents[i] = SOLUTION_HEX(self.nextAvailableID) # hexapod
             self.nextAvailableID += 1
         os.system("del brain*.nndf")
         os.system("del fitness*.txt")
@@ -30,6 +30,7 @@ class PARALLEL_HILL_CLIMBER:
         self.Mutate()
         self.Evaluate(self.children)
         self.Calculate_Average_Fitness()
+        self.Show_Generation()
         self.Print()
         self.Select()
     
@@ -94,6 +95,13 @@ class PARALLEL_HILL_CLIMBER:
         # save value to file
         file = open("averageFitness.txt", "a")
         file.write(str(self.average_parent_fitness) + "\n")
+        file.close()
+
+
+    def Show_Generation(self):
+        with open('averageFitness.txt', 'r') as file:
+            line_count = sum(1 for _ in file)
+        print("Generation: ", line_count)
         file.close()
 
 
