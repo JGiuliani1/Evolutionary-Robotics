@@ -100,13 +100,13 @@ class PARALLEL_HILL_CLIMBER:
 
     def Show_Generation(self):
         with open('averageFitness.txt', 'r') as file:
-            line_count = sum(1 for _ in file)
-        print("Generation: ", line_count)
+            self.line_count = sum(1 for _ in file)
         file.close()
 
 
     def Print(self):
         print("\n")
+        print("Generation:", self.line_count)
         for i in range(0, len(self.parents)):
             print("Parent fitness: " + str(self.parents[i].fitness) + " Child fitness: " + str(self.children[i].fitness))
         print("Average parent fitness: ", str(self.average_parent_fitness))
