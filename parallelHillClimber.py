@@ -10,8 +10,8 @@ class PARALLEL_HILL_CLIMBER:
         self.parents = {}
         self.nextAvailableID = 0
         for i in range(0, c.POPULATION_SIZE):
-            self.parents[i] = SOLUTION(self.nextAvailableID) # quadruped
-            #self.parents[i] = SOLUTION_HEX(self.nextAvailableID) # hexapod
+            #self.parents[i] = SOLUTION(self.nextAvailableID) # quadruped
+            self.parents[i] = SOLUTION_HEX(self.nextAvailableID) # hexapod
             self.nextAvailableID += 1
         os.system("del brain*.nndf")
         os.system("del fitness*.txt")
